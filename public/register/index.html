@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TWAIN Cloud Scanner Registration</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Social buttons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" integrity="sha256-rFMLRbqAytD9ic/37Rnzr2Ycy/RlpxE5QH52h7VoIZo=" crossorigin="anonymous" />
+    <!-- Custom styles for this template -->
+    <link href="register.css" rel="stylesheet">
+</head>
+<body class="vertical-center">
+
+<div class="container" style="display:none">
+
+    <div class="text-center">
+      <img class="mb-4" src="../images/logo.png" alt="" width="200">
+
+      <h1>TWAIN Cloud</h1>
+      <h2>Scanner Registration</h2>
+    </div>
+
+    <form id="authorizeForm" class="form-signin" style="display:none">
+        <fieldset class="form-group">
+            <p>You are about to claim an ownership for a scanner.
+              Confirm your identity using one of the buttons below:</p>
+          <div class="loginButton">
+              <a id="googleLogin" href="#" class="btn btn-block btn-social btn-google"><i class="fa fa-google"></i>Sign in with Google</a>
+          </div>
+          <div class="loginButton">
+            <a id="facebookLogin" href="#" class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i>Sign in with Facebook</a>
+          </div>
+        </fieldset>
+    </form>
+
+    <form id="processingForm" class="form-signin text-center" style="display:none">
+        <fieldset class="form-group">
+            <p>Processing...</p>
+        </fieldset>
+    </form>
+
+    <form id="congratsForm" class="form-signin text-center" style="display:none">
+        <h3 id="scannerName"></h3>
+        <fieldset class="form-group">
+            <p>Successfully Registered with TWAIN Cloud.</p>
+        </fieldset>
+    </form>
+
+    <p class="text-center mt-5 mb-3 text-muted">&copy; <a href="https://hazybits.com">HazyBits</a> and <a href="http://www.twain.org/">TWAIN Working Group</a>, 2018</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+
+<script src="../app/common.js"></script>
+<script src="../app/twain.js"></script>
+<script src="register.js"></script>
+
+</body>
+</html>
