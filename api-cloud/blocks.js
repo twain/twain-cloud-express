@@ -3,12 +3,15 @@ const uuid = require('uuid');
 const express = require('express');
 const router = express.Router({mergeParams: true});
 
+const multer  = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+
 const fs = require('fs');
 const path = require('path');
 const util = require('util'); 
 const mkdir = util.promisify(fs.mkdir);
 const exists = util.promisify(fs.exists);
-const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 const logger = require('../utils/logger')('api-blocks');
@@ -33,12 +36,12 @@ function getFileId(req, blockId) {
   return `${uploadFolder}/${clientId}/${scannerId}/${blockId}`;
 }
 
-router.post('/', function(req, res, next) {
+router.post('/', upload.single(), function(req, res, next) {
   const blockId = uuid.v4();
   const fileId = getFileId(req, blockId)
-  const fileContent = new Buffer(req.body, 'base64');
+  const fileContent = req.body;
 
-  logger.info('saving file');
+  logger.info(`saving file: ${fileId}`);  
   ensureDirectoryExistence(fileId)
   .then(() => writeFile(fileId, fileContent))
   .then(() => res.json(blockId))
@@ -49,10 +52,8 @@ router.get('/:blockId', function(req, res, next) {
   const blockId = req.params.blockId;
   const fileId = getFileId(req, blockId);
 
-  logger.info('downloading file');
-  readFile(fileId)
-  .then(data => res.json(data.toString('base64')))
-  .catch(next);
+  logger.info(`downloading file: ${fileId}`);
+  res.download(fileId, next);
 });
 
 module.exports = router;

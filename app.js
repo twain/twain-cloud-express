@@ -4,6 +4,7 @@ global.__baseFolder = __dirname;
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser')
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
@@ -28,7 +29,9 @@ var localRouter = require('./api-local/direct');
 var app = express();
 
 app.use(logger('dev'));
-app.use(express.json({ limit: '10mb', strict: false }));
+app.use(express.json({ strict: false }));
+app.use(bodyParser.raw({ limit: '10mb' }));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
