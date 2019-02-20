@@ -13,13 +13,20 @@ All-in-one TWAIN Cloud implementation using Node.js Express web framework
 
  - Clone [twain-cloud-express](https://github.com/twain/twain-cloud-express) repository
  - Run ```docker build -t twain-cloud .``` command in root folder or the repository
- - Run ```docker 
+ - Run ```docker run -p 3000:80 twain-cloud``` command (here we map 80 port of the container to local port 3000) 
  
 ## Test with TWAIN Direct applications
 Initial steps:
  - Clone [twain-direct]() repository
+ - Update App.config files of TwainDirect.Scanner and TwainDirect.App projects using the following settings:
+   ```xml
+   <appSettings>
+    <add key="CloudApiRoot" value="http://localhost:3000/api"/>
+    <add key="CloudManager" value="http://localhost:3000"/>
+    <add key="CloudUseHttps" value="no"/>
+  </appSettings>
+   ```
  - Build TwainDirect.Scanner and TwainDirect.App applications
-
 
 ### Connect TWAIN Direct Device
  - Start TwainDirect.Scanner app and press ```Setup...``` button
