@@ -24,7 +24,7 @@ Initial steps:
     <add key="CloudApiRoot" value="http://localhost:3000/api"/>
     <add key="CloudManager" value="http://localhost:3000"/>
     <add key="CloudUseHttps" value="no"/>
-  </appSettings>
+   </appSettings>
    ```
  - Build TwainDirect.Scanner and TwainDirect.App applications
 
