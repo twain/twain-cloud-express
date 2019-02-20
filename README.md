@@ -30,4 +30,3 @@ Initial steps:
  - Start TwainDirect.App application and press ```Cloud...``` button to authenticate with TWAIN Cloud implementation you run locally
  - Press ```Select...``` button to pick cloud scanner to work with
  - Press ```Scan``` button to acquire an image from TWAIN Direct device
- 
