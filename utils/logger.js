@@ -14,23 +14,23 @@ const logLevels = {
 
 /**
  * Simple logger that should be used for all diagnostic messages.
- * @param context
+ * @param {string} moduleName Name of the module that uses logger instance.
  * @constructor
  */
-function Logger(moduleName) {
+const Logger = function(moduleName) {
   const debugLogFunction = require('debug')(moduleName);
   const debugEnabled = debugLogFunction.enabled;
 
   const logFunction = debugLogFunction.enabled ? debugLogFunction : console.log;
 
-  function createLogger(level) {
+  const createLogger = function(level) {
     const loggerLevel = logLevels[level];
     
-    return function () {
+    return function (...args) {
       // log only what is necessary
       if (loggerLevel <= processLogLevel) {
         const prefix = debugEnabled ? `[${level}]` : `[${moduleName}] [${level}]`;
-        const message = util.format.apply(null, arguments);
+        const message = util.format.apply(null, args);
 
         logFunction(`${prefix} ${message}`);
       }
@@ -46,31 +46,33 @@ function Logger(moduleName) {
    * Writes error message to the log.
    */
   this.error = createLogger('error');
+
   /**
    * Writes warning message to the log.
    */
   this.warn = createLogger('warn');
+
   /**
    * Writes info message to the log.
    */
   this.info = createLogger('info');
+
   /**
    * Writes debug message to the log.
    */
   this.debug = createLogger('debug');
+
   /**
    * Measures execution time of provided lambda and writes
    * this information to the log.
-   * @returns {*}
    */
-  this.scope = function () {
-    const args = Array.prototype.slice.call(arguments);
+  this.scope = function (...args) {
     const body = args.pop();
     const start = process.hrtime();
     const me = this;
 
     const isPromise = function(obj) {
-      return obj && (typeof obj.then == 'function');
+      return obj && typeof obj.then === 'function';
     };
 
     const stopTimer = function() {
@@ -78,16 +80,19 @@ function Logger(moduleName) {
       const ms = end[1] / 1000000; // divide by a million to get nano to milli
 
       const scopeName = util.format.apply(null, args);
-      me.info.apply(null, [{
-        scope: scopeName,
-        duration: `${end[0]}s, ${ms.toFixed(3)}ms` // s.ms
-      }]);
+      me.info.apply(null, [
+        {
+          scope: scopeName,
+          duration: `${end[0]}s, ${ms.toFixed(3)}ms` // s.ms
+        }
+      ]);
     };
 
-    let result;
+    let result = null;
     try {
       result = isPromise(body) ? body : body();
-    } finally {
+    } 
+    finally {
       if (isPromise(result)) {
         // wrap the result promise to record execution time
         result = result
@@ -97,9 +102,11 @@ function Logger(moduleName) {
           })
           .then(data => {
             stopTimer();
+
             return data;
           });
-      } else {
+      } 
+      else {
         stopTimer();
       }
     }

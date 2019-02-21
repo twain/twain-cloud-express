@@ -1,11 +1,11 @@
 'use strict';
 const uuid = require('uuid');
 const express = require('express');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
-const multer  = require('multer')
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const fs = require('fs');
 const path = require('path');
@@ -17,28 +17,30 @@ const writeFile = util.promisify(fs.writeFile);
 const logger = require('../utils/logger')('api-blocks');
 const uploadFolder = `${__baseFolder}/upload`;
 
-function ensureDirectoryExistence(filePath) {
-  var dirname = path.dirname(filePath);
+const ensureDirectoryExistence = function(filePath) {
+  const dirname = path.dirname(filePath);
+
   return exists(dirname)
-  .then(doesEsists => {
-    if (doesEsists) {
+  .then(doesExist => {
+    if (doesExist) {
       return Promise.resolve();
     }
 
     return ensureDirectoryExistence(dirname)
     .then(() => mkdir(dirname));
   });
-}
+};
 
-function getFileId(req, blockId) {
+const getFileId = function(req, blockId) {
   const clientId = req.twain.principalId;
   const scannerId = req.params.scannerId;
+
   return `${uploadFolder}/${clientId}/${scannerId}/${blockId}`;
-}
+};
 
 router.post('/', upload.single(), function(req, res, next) {
   const blockId = uuid.v4();
-  const fileId = getFileId(req, blockId)
+  const fileId = getFileId(req, blockId);
   const fileContent = req.body;
 
   logger.info(`saving file: ${fileId}`);  

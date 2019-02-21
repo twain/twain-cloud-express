@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  let clientId = req.twain.principalId;
+  const clientId = req.twain.principalId;
   logger.info(`Loading user information and environment details scanners for clientId: ${clientId}`);
 
   // generate signed MQTT Url
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
       eventBroker: {
         type: 'mqtt',
         url: iotUrl,
-        topic: iot.getClientTopic(clientId),
+        topic: iot.getClientTopic(clientId)
       }
     };
 

@@ -3,7 +3,7 @@ const iot = require('../utils/iotClient');
 const logger = require('../utils/logger')('api-local');
 
 var express = require('express');
-var router = express.Router({mergeParams: true});
+var router = express.Router({ mergeParams: true });
 
 router.all('/', function(req, res, next) {
   const body = req.body;
