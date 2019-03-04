@@ -1,32 +1,34 @@
+'use strict';
+
 // save base folder location
 global.__baseFolder = __dirname;
 
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser')
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
 
 // Authentication API
-var signinRouter = require('./api-auth/signin');
-var refreshRouter = require('./api-auth/refresh');
+const signinRouter = require('./api-auth/signin');
+const refreshRouter = require('./api-auth/refresh');
 
 // Registration API
-var registerRouter = require('./api-register/register');
-var pollRouter = require('./api-register/poll');
-var claimRouter = require('./api-register/claim');
+const registerRouter = require('./api-register/register');
+const pollRouter = require('./api-register/poll');
+const claimRouter = require('./api-register/claim');
 
 // Cloud API
-var scannersRouter = require('./api-cloud/scanners');
-var userRouter = require('./api-cloud/user');
-var blocksRouter = require('./api-cloud/blocks');
+const scannersRouter = require('./api-cloud/scanners');
+const userRouter = require('./api-cloud/user');
+const blocksRouter = require('./api-cloud/blocks');
 
 // Local API
-var localRouter = require('./api-local/direct');
+const localRouter = require('./api-local/direct');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json({ strict: false }));
@@ -45,7 +47,7 @@ app.use('/api/register', registerRouter);
 app.use('/api/poll', pollRouter);
 
 // Auth middleware
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(403).json({ error: 'No credentials sent!' });
   }
@@ -54,7 +56,7 @@ app.use(function(req, res, next) {
   req.twain = {};
   req.twain.principalId = req.headers.authorization;
 
-  next();
+  return next();
 });
 
 // APIs that do require authentication
