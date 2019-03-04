@@ -38,6 +38,10 @@ const getFileId = function(req, blockId) {
   return `${uploadFolder}/${clientId}/${scannerId}/${blockId}`;
 };
 
+const getFileUrl = function(req, blockId) {
+  return `${req.protocol}://${req.get('host')}${req.originalUrl}/${blockId}`;
+};
+
 router.post('/', upload.single(), function(req, res, next) {
   const blockId = uuid.v4();
   const fileId = getFileId(req, blockId);
@@ -46,7 +50,7 @@ router.post('/', upload.single(), function(req, res, next) {
   logger.info(`saving file: ${fileId}`);  
   ensureDirectoryExistence(fileId)
   .then(() => writeFile(fileId, fileContent))
-  .then(() => res.json(blockId))
+  .then(() => res.json(getFileUrl(req, blockId)))
   .catch(next);
 });
 

@@ -1,3 +1,6 @@
+# TWAIN Cloud ignores
+upload
+
 # Logs
 logs
 *.log
