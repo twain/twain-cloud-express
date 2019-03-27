@@ -66,10 +66,10 @@ app.use('/api/scanners', scannersRouter);
 scannersRouter.use('/:scannerId/blocks', blocksRouter);
 
 // v1 - original APIs with 'privet' prefix
-scannersRouter.use('/:scannerId/privet/infoex', localRouter);
-scannersRouter.use('/:scannerId/privet/twaindirect/session', localRouter);
+//scannersRouter.use('/:scannerId/privet/infoex', localRouter);
+//scannersRouter.use('/:scannerId/privet/twaindirect/session', localRouter);
 // v2 - APIs without 'privet' prefix
 scannersRouter.use('/:scannerId/infoex', localRouter);
-scannersRouter.use('/:scannerId/session', localRouter);
+scannersRouter.use('/:scannerId/twaindirect/session', localRouter);
 
 module.exports = app;
